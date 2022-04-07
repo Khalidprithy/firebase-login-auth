@@ -11,12 +11,18 @@ const Login = () => {
     const [user, setUser] = useState({});
 
 
-
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
 
     const handleGithubSignIn = () => {
-        console.log('Git')
+        signInWithPopup(auth, githubProvider)
+            .then(result => {
+                const user = result.user;
+                setUser(user);
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
 
@@ -49,7 +55,7 @@ const Login = () => {
             <div className="row d-flex justify-content-center mt-5">
                 <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div className="card py-3 px-2">
-                        <p className="text-center mb-3 mt-2"> <span className='span-text'> Log In with</span></p>
+                        <p className="text-center mb-3 mt-2"> <span className='span-text'> Sign In with</span></p>
                         <div className="row mx-auto ">
                             <div className="col-4"> <AiFillFacebook className='icons facebook-icon' ></AiFillFacebook> </div>
                             <div className="col-4"> <AiFillGoogleSquare onClick={handleGoogleSignIn} className='icons google-icon'></AiFillGoogleSquare> </div>
@@ -59,7 +65,7 @@ const Login = () => {
                             <div className="row">
                                 <div className="col-3">
                                 </div>
-                                <div className="col-6"><span className='span-text'>Login with Email</span></div>
+                                <div className="col-6"><span className='span-text'>Sign In with Email</span></div>
                             </div>
                         </div>
                         <form className="myform">
@@ -83,10 +89,9 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-
             <div>
                 <h4>Name: {user.displayName}</h4>
-                <p>Email:{user.email}</p>
+                <p>Email:{user?.email}</p>
                 <img src={user.photoURL} alt="" />
             </div>
         </div>
