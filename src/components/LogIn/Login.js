@@ -1,8 +1,26 @@
 import React from 'react';
 import './Login.css'
 import { AiFillFacebook, AiFillGoogleSquare, AiFillGithub } from 'react-icons/ai';
+import app from '../../firebase.init';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+
+const auth = getAuth(app)
 
 const Login = () => {
+    const provider = new GoogleAuthProvider();
+
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, provider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        console.log('working')
+    }
     return (
         <div className="container">
             <div className="row d-flex justify-content-center mt-5">
@@ -11,7 +29,7 @@ const Login = () => {
                         <p className="text-center mb-3 mt-2"> <span className='span-text'> Log In with</span></p>
                         <div className="row mx-auto ">
                             <div className="col-4"> <AiFillFacebook className='icons facebook-icon' ></AiFillFacebook> </div>
-                            <div className="col-4"> <AiFillGoogleSquare className='icons google-icon'></AiFillGoogleSquare> </div>
+                            <div className="col-4"> <AiFillGoogleSquare onClick={handleGoogleSignIn} className='icons google-icon'></AiFillGoogleSquare> </div>
                             <div className="col-4"> <AiFillGithub className='icons github-icon'></AiFillGithub>  </div>
                         </div>
                         <div className="division">
