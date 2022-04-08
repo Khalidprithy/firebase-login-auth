@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css'
 import { AiFillFacebook, AiFillGoogleSquare, AiFillGithub } from 'react-icons/ai';
 import app from '../../firebase.init';
-import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 
 const auth = getAuth(app)
@@ -13,15 +13,16 @@ const Login = () => {
 
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
+    const facebookProvider = new FacebookAuthProvider();
 
-    const handleGithubSignIn = () => {
-        signInWithPopup(auth, githubProvider)
+    const handleFacebookSignIn = () => {
+        signInWithPopup(auth, facebookProvider)
             .then(result => {
                 const user = result.user;
                 setUser(user);
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
             })
     }
 
@@ -37,6 +38,17 @@ const Login = () => {
                 console.log(error);
             })
         console.log('working')
+    }
+
+    const handleGithubSignIn = () => {
+        signInWithPopup(auth, githubProvider)
+            .then(result => {
+                const user = result.user;
+                setUser(user);
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const handleSignOut = () => {
@@ -57,7 +69,7 @@ const Login = () => {
                     <div className="card py-3 px-2">
                         <p className="text-center mb-3 mt-2"> <span className='span-text'> Sign In with</span></p>
                         <div className="row mx-auto ">
-                            <div className="col-4"> <AiFillFacebook className='icons facebook-icon' ></AiFillFacebook> </div>
+                            <div className="col-4"> <AiFillFacebook onClick={handleFacebookSignIn} className='icons facebook-icon' ></AiFillFacebook> </div>
                             <div className="col-4"> <AiFillGoogleSquare onClick={handleGoogleSignIn} className='icons google-icon'></AiFillGoogleSquare> </div>
                             <div className="col-4"> <AiFillGithub onClick={handleGithubSignIn} className='icons github-icon'></AiFillGithub>  </div>
                         </div>
