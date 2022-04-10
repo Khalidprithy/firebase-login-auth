@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css'
 import { AiFillFacebook, AiFillGoogleSquare, AiFillGithub } from 'react-icons/ai';
 import app from '../../firebase.init';
-import { FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 
 const auth = getAuth(app)
@@ -72,6 +72,14 @@ const Login = () => {
 
     const handleFormSubmit = e => {
         e.preventDefault();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(error => {
+                console.error(error);
+            })
         console.log('Submitted', email, password)
     }
 
