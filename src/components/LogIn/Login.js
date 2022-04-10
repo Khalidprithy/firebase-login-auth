@@ -138,12 +138,10 @@ const Login = () => {
                         {
                             !user.uid ? <p>No</p> : <p className='text-success'>Successful</p>
                         }
-                        <div className='d-flex justify-content-center align-items-center border border-primary p-4'>
-                            <img className='rounded-circle me-4' src={user.photoURL} alt="" />
-                            <h4> {user.displayName}</h4>
+                        <div className='d-flex justify-content-center align-items-center p-4'>
+                            <img className='user-img' src={user.photoURL} alt="" />
+                            <h4 className='user-name'> {user.displayName}</h4>
                         </div>
-
-
                     </>
                         : ''
                 }
