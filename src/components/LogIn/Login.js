@@ -9,6 +9,8 @@ const auth = getAuth(app)
 
 const Login = () => {
     const [user, setUser] = useState({});
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
 
     const googleProvider = new GoogleAuthProvider();
@@ -51,6 +53,13 @@ const Login = () => {
             })
     }
 
+    const handleEmailBlur = (e) => {
+        setEmail(e.target.value)
+    }
+    const handlePasswordBlur = (e) => {
+        setPassword(e.target.value)
+    }
+
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
@@ -59,6 +68,11 @@ const Login = () => {
             .catch(error => {
                 setUser({});
             })
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault();
+        console.log('Submitted', email, password)
     }
 
 
@@ -80,19 +94,28 @@ const Login = () => {
                                 <div className="col-6"><span className='span-text'>Sign In with Email</span></div>
                             </div>
                         </div>
-                        <form className="myform">
-                            <div className="form-group"> <input type="email" className="form-control" placeholder="Email" /> </div>
-                            <div className="form-group"> <input type="password" className="form-control" placeholder="Password" /> </div>
+                        <form onSubmit={handleFormSubmit} className="myform">
+                            <div className="form-group">
+                                <input onBlur={handleEmailBlur} type="email" className="form-control" placeholder="Email" />
+                            </div>
+                            <div className="form-group">
+                                <input onBlur={handlePasswordBlur} type="password" className="form-control" placeholder="Password" />
+                            </div>
                             <div className="row">
                                 <div className="col-md-6 col-12">
-                                    <div className="form-group form-check"> <input type="checkbox" className="form-check-input" id="exampleCheck1" /> <label className="form-check-label" for="exampleCheck1"> <span className='span-text'>Already Registered?</span></label> </div>
+                                    <div className="form-group form-check">
+                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                        <label className="form-check-label" for="exampleCheck1">
+                                            <span className='span-text'>Already Registered?</span>
+                                        </label>
+                                    </div>
                                 </div>
                                 <div className="col-md-6 col-12 bn"> <span className='span-text'>Forgot password?</span></div>
                             </div>
                             <div className="form-group mt-3">
                                 {
                                     !user.uid ?
-                                        <button type="button" className="btn btn-block btn-success btn-lg"><small><i className="far fa-user pr-2"></i>Login</small></button>
+                                        <button type="submit" className="btn btn-block btn-success btn-lg"><small><i className="far fa-user pr-2"></i>Login</small></button>
                                         :
                                         <button onClick={handleSignOut} type="button" className="btn btn-block btn-success btn-lg"><small><i className="far fa-user pr-2"></i>Sign Out</small></button>
                                 }
@@ -102,9 +125,15 @@ const Login = () => {
                 </div>
             </div>
             <div>
-                <h4>Name: {user.displayName}</h4>
-                <p>Email:{user?.email}</p>
-                <img src={user.photoURL} alt="" />
+                {
+                    user.uid ? <>
+                        {
+                            !user.uid ? <p>No</p> : <p>Successful</p>
+                        }
+                        <h4>Name: {user.displayName}</h4>
+                        <p>Email:{user?.email}</p>
+                        <img src={user.photoURL} alt="" /></> : ''
+                }
             </div>
         </div>
     );
