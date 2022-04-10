@@ -104,10 +104,10 @@ const Login = () => {
                         </div>
                         <form onSubmit={handleFormSubmit} className="myform">
                             <div className="form-group">
-                                <input onBlur={handleEmailBlur} type="email" className="form-control" placeholder="Email" />
+                                <input onBlur={handleEmailBlur} type="email" className="form-control" placeholder="Email" required />
                             </div>
                             <div className="form-group">
-                                <input onBlur={handlePasswordBlur} type="password" className="form-control" placeholder="Password" />
+                                <input onBlur={handlePasswordBlur} type="password" className="form-control" placeholder="Password" required />
                             </div>
                             <div className="row">
                                 <div className="col-md-6 col-12">
@@ -136,11 +136,16 @@ const Login = () => {
                 {
                     user.uid ? <>
                         {
-                            !user.uid ? <p>No</p> : <p>Successful</p>
+                            !user.uid ? <p>No</p> : <p className='text-success'>Successful</p>
                         }
-                        <h4>Name: {user.displayName}</h4>
-                        <p>Email:{user?.email}</p>
-                        <img src={user.photoURL} alt="" /></> : ''
+                        <div className='d-flex justify-content-center align-items-center border border-primary p-4'>
+                            <img className='rounded-circle me-4' src={user.photoURL} alt="" />
+                            <h4> {user.displayName}</h4>
+                        </div>
+
+
+                    </>
+                        : ''
                 }
             </div>
         </div>
