@@ -11,7 +11,7 @@ const Login = () => {
     const [user, setUser] = useState({});
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [error, setError] = useState();
 
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
@@ -72,6 +72,11 @@ const Login = () => {
 
     const handleFormSubmit = e => {
         e.preventDefault();
+
+        if (!/(?=.*?[0-9])/.test(password)) {
+            setError('Password should contain At least one digit')
+            return;
+        }
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const user = result.user;
@@ -80,7 +85,6 @@ const Login = () => {
             .catch(error => {
                 console.error(error);
             })
-        console.log('Submitted', email, password)
     }
 
 
@@ -108,17 +112,20 @@ const Login = () => {
                             </div>
                             <div className="form-group">
                                 <input onBlur={handlePasswordBlur} type="password" className="form-control" placeholder="Password" required />
+                                <p className='text-danger'>{error}</p>
                             </div>
-                            <div className="row">
-                                <div className="col-md-6 col-12">
-                                    <div className="form-group form-check">
-                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                        <label className="form-check-label" for="exampleCheck1">
+                            <div className="d-flex justify-content-between d-xs-block">
+                                <div className="col-sm-6 col-md-6 col-12">
+                                    <div className="d-flex align-items-center">
+                                        <input type="checkbox" className="form-check-input mb-2 me-2" id="exampleCheck1" />
+                                        <label className="form-check-label" htmlFor="exampleCheck1">
                                             <span className='span-text'>Already Registered?</span>
                                         </label>
                                     </div>
                                 </div>
-                                <div className="col-md-6 col-12 bn"> <span className='span-text'>Forgot password?</span></div>
+                                <div>
+                                    <span type="button" className='span-text bn'>Forgot password?</span>
+                                </div>
                             </div>
                             <div className="form-group mt-3">
                                 {
